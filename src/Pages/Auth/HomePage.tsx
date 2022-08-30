@@ -11,18 +11,18 @@ const HomePage: React.FC<HomePageProps> = () => {
 		<DashboardLayout>
 			<section className="w-11/12 mx-auto pt-4 -z-10">
 				<div className="lg:grid lg:grid-cols-12 gap-3">
-					<VideoGridSystem img={img1} />
-					<VideoGridSystem img={img2} />
-					<VideoGridSystem img={img2} />
-					<VideoGridSystem img={img1} />
-					<VideoGridSystem img={img2} />
-					<VideoGridSystem img={img1} />
-					<VideoGridSystem img={img2} />
-					<VideoGridSystem img={img1} />
-					<VideoGridSystem img={img2} />
-					<VideoGridSystem img={img1} />
-					<VideoGridSystem img={img2} />
-					<VideoGridSystem img={img1} />
+					<VideoGridSystem img={img1} id={1} />
+					<VideoGridSystem img={img2} id={2} />
+					<VideoGridSystem img={img2} id={2} />
+					<VideoGridSystem img={img1} id={1} />
+					<VideoGridSystem img={img2} id={2} />
+					<VideoGridSystem img={img1} id={1} />
+					<VideoGridSystem img={img2} id={2} />
+					<VideoGridSystem img={img1} id={1} />
+					<VideoGridSystem img={img2} id={2} />
+					<VideoGridSystem img={img1} id={1} />
+					<VideoGridSystem img={img2} id={2} />
+					<VideoGridSystem img={img1} id={1} />
 				</div>
 			</section>
 		</DashboardLayout>

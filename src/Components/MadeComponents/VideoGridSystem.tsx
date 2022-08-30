@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 
 interface VideoGridSystemProps {
 	img: string;
+    id: number
 }
 
-const VideoGridSystem: React.FC<VideoGridSystemProps> = ({ img }) => {
+const VideoGridSystem: React.FC<VideoGridSystemProps> = ({ img, id }) => {
 	return (
 		<div className="lg:col-span-3 cursor-pointer py-2 hover:shadow-md p-2 rounded-md">
-			<Link to={"/video/1"}>
+			<Link to={`/video/${id}`}>
 				<img src={img} alt="image1" className="h-40 w-full" />
 				<div className="flex items-center">
 					<img src={img} alt="image1" className="h-8 w-8 rounded-full" />

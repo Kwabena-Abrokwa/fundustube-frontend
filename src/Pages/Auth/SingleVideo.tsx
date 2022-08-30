@@ -1,19 +1,24 @@
 import React from "react";
 import SingleVideoLayout from "../../Components/LayoutComponent/SingleVideoLayout";
 import img1 from "../../Assets/Images/img1.jpg";
+import img2 from "../../Assets/Images/img2.jpg";
 import VideoGridSystem from "../../Components/MadeComponents/VideoGridSystem";
 import { FaRegHeart } from "react-icons/fa";
+import { useParams } from "react-router-dom";
 
 interface SingleVideoProps {}
 
 const SingleVideo: React.FC<SingleVideoProps> = () => {
+
+	const { id } = useParams();
+
 	return (
 		<SingleVideoLayout>
 			<section className="px-3 -z-10">
 				<div className="lg:grid lg:grid-cols-12 gap-3">
 					<div className="lg:col-span-9 py-2 w-11/12 mx-auto">
 						<img
-							src={img1}
+							src={id === "1" ? img1 : img2}
 							alt={"images1"}
 							className={"h-[35em] w-full"}
 						/>
@@ -85,10 +90,10 @@ const SingleVideo: React.FC<SingleVideoProps> = () => {
 						</div>
 					</div>
 					<div className="lg:col-span-3 cursor-pointer py-2">
-						<VideoGridSystem img={img1} />
-						<VideoGridSystem img={img1} />
-						<VideoGridSystem img={img1} />
-						<VideoGridSystem img={img1} />
+						<VideoGridSystem img={img1} id={1} />
+						<VideoGridSystem img={img2} id={2}/>
+						<VideoGridSystem img={img1} id={1}/>
+						<VideoGridSystem img={img2} id={2} />
 					</div>
 				</div>
 			</section>
