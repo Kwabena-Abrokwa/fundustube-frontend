@@ -9,7 +9,7 @@ interface HomePageProps {}
 const HomePage: React.FC<HomePageProps> = () => {
 	return (
 		<DashboardLayout>
-			<section className="w-11/12 mx-auto pt-4 -z-10">
+			<section className="w-11/12 mx-auto py-8 -z-10">
 				<div className="lg:grid lg:grid-cols-12 gap-3">
 					<VideoGridSystem img={img1} id={1} />
 					<VideoGridSystem img={img2} id={2} />

@@ -10,8 +10,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 	return (
 		<main className="h-screen overflow-scroll">
 			<NavigationBar />
-			<div className="flex justify-center pt-20 h-screen fixed overflow-scroll">
-				<div className="w-1/6 left-0 top-0  relative">
+			<div className="flex justify-center pt-20 h-screen fixed overflow-scroll bg-white">
+				<div className="w-1/6 left-0 top-0 relative">
 					<AsideBar />
 				</div>
 				<div className="w-full h-screen">{children}</div>
