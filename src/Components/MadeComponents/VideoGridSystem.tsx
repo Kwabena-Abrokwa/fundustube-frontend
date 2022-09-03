@@ -20,7 +20,7 @@ const VideoGridSystem: React.FC<VideoGridSystemProps> = ({ img, id }) => {
 					</div>
 				</div>
 				<p className="py-2 text-gray-500 text-sm">
-					Upcoming project for Inzema Senior High School
+					Upcoming project for Inzema Senior High Schools
 				</p>
 				<div className="flex items-center justify-between">
 					<p className="py-2 text-gray-500 text-sm">2M views</p>
