@@ -15,7 +15,7 @@ const VideoGridSystem: React.FC<VideoGridSystemProps> = ({ img, id }) => {
 					<img src={img} alt="image1" className="h-8 w-8 rounded-full" />
 					<div className="pl-2">
 						<h1 className="py-2 font-semibold">
-							Inzema Senior High Project
+							Mpass Senior High Project
 						</h1>
 					</div>
 				</div>
