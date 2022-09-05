@@ -1,84 +1,136 @@
-import React from "react";
-import { FaRegHeart } from "react-icons/fa";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { FaRegAngry, FaRegHeart, FaRegShareSquare } from "react-icons/fa";
+import { useParams } from "react-router-dom";
 
-interface SingleVideoComponentProps {
-	image1: string;
-	image2: string;
-	id: string | undefined;
-}
+const SingleVideoComponent: React.FC = () => {
+	const [data, setdata] = useState([]);
+	const [likesCount, setLikesCount] = useState(0);
+	const [dislikesCount, setDislikesCount] = useState(0);
+	const [loader, setloader] = useState(true);
+	const { id } = useParams();
 
-const SingleVideoComponent: React.FC<SingleVideoComponentProps> = ({
-	image1,
-    image2,
-	id,
-}) => {
+	useEffect(() => {
+		setloader(true);
+		axios
+			.get(`http://localhost:8081/api/video/getStreamingVideos/${id}`)
+			.then(({ data }) => {
+				setdata(data);
+				setloader(false);
+				setLikesCount(data[0].likes.length);
+				setDislikesCount(data[0].dislikes.length);
+				document.title = data.map((item: any) => item.title);
+			});
+
+		return () => {};
+	}, [id]);
+
+	const handleLike = (id: string) => {
+		axios
+			.post(`http://localhost:8081/api/video/dislikeAction/${id}`, {
+				user_id: 15,
+			})
+			.then(({ data }) => {
+				setLikesCount(data);
+			});
+	};
+
+	const handleDislike = (id: string) => {
+		axios
+			.post(`http://localhost:8081/api/video/likeAction/${id}`, {
+				user_id: 40,
+			})
+			.then(({ data }) => {
+				setDislikesCount(data);
+			});
+	};
+
 	return (
-		<div className="lg:col-span-9 py-2 w-11/12 mx-auto">
-			<img
-				src={id === "1" ? image1 : image2}
-				alt={"images1"}
-				className={"h-[32em] w-full"}
-			/>
-			<div className="flex justify-between items-end pt-3">
-				<div>
-					<div className="">
-						<h1 className="text-xl py-2 font-bold">
-							Help me fund Inzema Senior High School
-						</h1>
-					</div>
-					<p className="pt-2 text-justify text-gray-500">
-						9,400 views - 29th August, 2020
-					</p>
-				</div>
-				<div className="flex justify-between items-center">
-					<div className="flex justify-between items-center cursor-pointer mx-4">
-						<FaRegHeart size={24} color={"black"} />
-						<p className="mx-2">Like</p>
-					</div>
-					<div className="flex justify-between items-center cursor-pointer mx-4">
-						<FaRegHeart size={24} color={"black"} />
-						<p className="mx-2">Like</p>
-					</div>
-					<div className="flex justify-between items-center cursor-pointer mx-4">
-						<FaRegHeart size={24} color={"black"} />
-						<p className="ml-2">Like</p>
-					</div>
-				</div>
-			</div>
-			<div className="w-full border mt-10" />
+		<div className="w-5/6">
+			{data &&
+				data.map((item: any) => (
+					<div className="w-11/12 mx-auto">
+						{loader ? (
+							<>
+								<div>Please wait</div>
+							</>
+						) : (
+							<video className={"h-[35em] w-full"} controls autoPlay>
+								<source
+									src={`http://localhost:8081/api/video/stream/${item.video_id}`}
+									type="video/mp4"
+								/>
+							</video>
+						)}
+						<div
+							className="flex justify-between items-end pt-3"
+							itemType=""
+						>
+							<div>
+								<div className="">
+									<h1 className="text-xl py-2 font-bold">
+										{item.title}
+									</h1>
+								</div>
+								<p className="pt-2 text-justify text-gray-500">
+									{item.views.length} views - {item.created_at}
+								</p>
+							</div>
+							<div className="flex justify-between items-center">
+								<button
+									className="flex justify-between items-center cursor-pointer mx-4"
+									onClick={() => handleLike(item.video_id)}
+								>
+									<p className="mx-2">{likesCount}</p>
+									<FaRegHeart size={24} color={"black"} />
+									<p className="mx-1">Like</p>
+								</button>
+								<button
+									className="flex justify-between items-center cursor-pointer mx-4"
+									onClick={() => handleDislike(item.video_id)}
+								>
+									<p className="mx-2">{dislikesCount}</p>
+									<FaRegAngry size={24} color={"black"} />
+									<p className="mx-1">Dislike</p>
+								</button>
+								<button className="flex justify-between items-center cursor-pointer mx-4">
+									<FaRegShareSquare size={24} color={"black"} />
+									<p className="ml-2">Share</p>
+								</button>
+							</div>
+						</div>
+						<div className="w-full border mt-10" />
 
-			<div className="flex justify-between items-start pt-10">
-				<div>
-					<div className="flex items-center">
-						<img
-							src={image1}
-							alt="image1"
-							className="h-8 w-8 rounded-full"
-						/>
-						<div className="pl-2">
-							<h1 className="text-md py-2 font-semibold">
-								Inzema Senior High Project
-							</h1>
+						<div className="flex justify-between items-start pt-10">
+							<div>
+								<div className="flex items-center">
+									<img
+										src={`../${item.img}`}
+										alt="image1"
+										className="h-10 w-10 rounded-full"
+									/>
+									<div className="pl-2">
+										<h1 className="text-md font-semibold">
+											{item.owner}
+										</h1>
+										<p className="text-sm">15 Subscribed</p>
+									</div>
+								</div>
+								<p className="pt-10 text-justify text-gray-500 pb-20">
+									{item.content}
+								</p>
+							</div>
+							<div className="flex justify-between items-center ">
+								<button className="bg-yellow-500 w-40 py-2 mr-4 font-semibold">
+									Donate
+								</button>
+								<button className="bg-red-700 w-40 py-2 text-white font-semibold">
+									Subscribe
+								</button>
+							</div>
 						</div>
 					</div>
-					<p className="py-6 text-justify text-gray-500 max-w-[38em]">
-						Two assure edward whence the was. Who worthy yet ten boy
-						denote wonder. Weeks views her sight old tears sorry.
-						Additions can suspected its concealed put furnished. Met the
-						why particular devonshire decisively considered partiality.
-						Certain it waiting no entered is. Passed her indeed uneasy shy
-						polite appear denied. Oh less girl no walk. At he spot with
-						five of view. Knowledge nay estimable questions repulsive
-						daughters boy. Solicitude gay way unaffected expression for.
-						His mistress ladyship required off horrible disposed rejoiced.
-						Unpleasing pianoforte unreserved as oh he unpleasant.
-					</p>
-				</div>
-				<div className="flex justify-between items-center ">
-					<button className="bg-yellow-500 w-40 py-2 mr-4 font-semibold">Donate</button>
-					<button className="bg-red-700 w-40 py-2 text-white font-semibold">Subscribe</button>
-				</div>
-			</div>
+				))}
 		</div>
 	);
 };

@@ -9,7 +9,7 @@ const SingleVideoLayout: React.FC<SingleVideoLayoutProps> = ({ children }) => {
 	return (
 		<main className="h-screen overflow-scroll">
 			<NavigationBar />
-			<div className="flex justify-center pt-20 h-screen fixed overflow-scroll">
+			<div className="mt-24 h-screen fixed overflow-scroll w-full">
 				<div className="w-full h-screen">{children}</div>
 			</div>
 		</main>

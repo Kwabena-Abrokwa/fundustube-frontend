@@ -1,28 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../Components/LayoutComponent/DashboardLayout";
-import img1 from "../../Assets/Images/img1.jpg";
-import img2 from "../../Assets/Images/img2.jpg";
 import VideoGridSystem from "../../Components/MadeComponents/VideoGridSystem";
+import axios from "axios";
 
 interface HomePageProps {}
 
 const HomePage: React.FC<HomePageProps> = () => {
+	const [data, setdata] = useState([]);
+
+	useEffect(() => {
+		axios
+			.get("http://localhost:8081/api/video/getAllVideos")
+			.then(({ data }) => {
+				console.log(data);
+
+				setdata(data);
+			});
+
+		return () => {};
+	}, []);
+
 	return (
 		<DashboardLayout>
 			<section className="w-11/12 mx-auto py-8 -z-10">
-				<div className="lg:grid lg:grid-cols-12 gap-3">
-					<VideoGridSystem img={img1} id={1} />
-					<VideoGridSystem img={img2} id={2} />
-					<VideoGridSystem img={img2} id={2} />
-					<VideoGridSystem img={img1} id={1} />
-					<VideoGridSystem img={img2} id={2} />
-					<VideoGridSystem img={img1} id={1} />
-					<VideoGridSystem img={img2} id={2} />
-					<VideoGridSystem img={img1} id={1} />
-					<VideoGridSystem img={img2} id={2} />
-					<VideoGridSystem img={img1} id={1} />
-					<VideoGridSystem img={img2} id={2} />
-					<VideoGridSystem img={img1} id={1} />
+				<div className="lg:grid lg:grid-cols-12 gap-1">
+					{data &&
+						data.map((item: any) => (
+							<VideoGridSystem
+								img={item.img}
+								id={item.video_id}
+								title={item.title}
+								brief={item.brief}
+								views={item.views.length}
+								date={item.created_at}
+							/>
+						))}
 				</div>
 			</section>
 		</DashboardLayout>
