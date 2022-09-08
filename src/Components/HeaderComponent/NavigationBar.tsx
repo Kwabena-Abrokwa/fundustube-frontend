@@ -5,7 +5,7 @@ interface NavigationBarProps {}
 
 const NavigationBar: React.FC<NavigationBarProps> = () => {
 	return (
-		<nav className="flex justify-between items-center py-2 px-3 bg-black fixed top-0 left-0 w-full h-20 z-50">
+		<nav className="flex justify-between items-center py-2 px-3 bg-black fixed top-0 left-0 w-full h-20 z-10">
 			<Link to={"/"}>
 				<p className="px-4 cursor-pointer text-white text-xl">Logo</p>
 			</Link>
@@ -27,7 +27,7 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
 					<p className="px-4 cursor-pointer">Login</p>
 				</Link>
 				<Link to={"/signup"}>
-					<p className="px-4 cursor-pointer">Sign-up</p>
+					<p className="px-4 cursor-pointer">Signup</p>
 				</Link>
 			</div>
 		</nav>

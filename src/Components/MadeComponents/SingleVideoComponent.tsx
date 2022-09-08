@@ -7,9 +7,10 @@ const SingleVideoComponent: React.FC = () => {
 	const [data, setdata] = useState([]);
 	const [likesCount, setLikesCount] = useState(0);
 	const [dislikesCount, setDislikesCount] = useState(0);
+	const [displayDonate, setdisplayDonate] = useState(false);
 	const [loader, setloader] = useState(true);
 	const { id } = useParams();
-
+	const user_id = 0;
 	useEffect(() => {
 		setloader(true);
 		axios
@@ -45,8 +46,31 @@ const SingleVideoComponent: React.FC = () => {
 			});
 	};
 
+	const handleDonateOpen = () => {
+		setdisplayDonate(true);
+	};
+
+	const handleDonateClose = () => {
+		setdisplayDonate(false);
+	};
+
+	const handleSubcribe = () => {};
+
+	const handleUnsubcribe = () => {};
+
 	return (
 		<div className="w-5/6">
+			{displayDonate ? (
+				<div className="fixed w-screen h-screen bg-[#00000070] top-0 left-0 z-50">
+					{" "}
+					<div
+						className="bg-white p-20 w-3/6 mx-auto mt-40 h-96"
+						onClick={handleDonateClose}
+					>
+						Close
+					</div>
+				</div>
+			) : null}
 			{data &&
 				data.map((item: any) => (
 					<div className="w-11/12 mx-auto">
@@ -113,7 +137,9 @@ const SingleVideoComponent: React.FC = () => {
 										<h1 className="text-md font-semibold">
 											{item.owner}
 										</h1>
-										<p className="text-sm">15 Subscribed</p>
+										<p className="text-sm">
+											{item.subscription.length} Subscribed
+										</p>
 									</div>
 								</div>
 								<p className="pt-10 text-justify text-gray-500 pb-20">
@@ -121,11 +147,23 @@ const SingleVideoComponent: React.FC = () => {
 								</p>
 							</div>
 							<div className="flex justify-between items-center ">
-								<button className="bg-yellow-500 w-40 py-2 mr-4 font-semibold">
+								<button
+									className="bg-yellow-500 w-40 py-2 mr-4 font-semibold"
+									onClick={handleDonateOpen}
+								>
 									Donate
 								</button>
-								<button className="bg-red-700 w-40 py-2 text-white font-semibold">
-									Subscribe
+								<button
+									className="bg-red-700 w-40 py-2 text-white font-semibold"
+									onClick={
+										item.subscription.includes(user_id && user_id)
+											? handleSubcribe
+											: handleUnsubcribe
+									}
+								>
+									{item.subscription.includes(user_id && user_id)
+										? "Unsubscribe"
+										: "Subscribe"}
 								</button>
 							</div>
 						</div>

@@ -13,7 +13,7 @@ const HomePage: React.FC<HomePageProps> = () => {
 			.get("http://localhost:8081/api/video/getAllVideos")
 			.then(({ data }) => {
 				console.log(data);
-
+				document.title="Fund Us Vibes"
 				setdata(data);
 			});
 
