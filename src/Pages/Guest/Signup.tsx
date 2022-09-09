@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CustomButton from "../../Components/Customs/CustomButton";
 import CustomInput from "../../Components/Customs/CustomInput";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 interface SignupProps {}
@@ -13,8 +13,6 @@ const Signup: React.FC<SignupProps> = () => {
 		password: "",
 	});
 	const [confirmPassword, setconfirmPassword] = useState("");
-
-	const navigate = useNavigate();
 
 	const [loader, setloader] = useState<Boolean>(false);
 	const [message, setmessage] = useState<string>("");
