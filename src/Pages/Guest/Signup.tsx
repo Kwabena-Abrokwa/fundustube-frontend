@@ -9,7 +9,7 @@ interface SignupProps {}
 const Signup: React.FC<SignupProps> = () => {
 	const [data, setdata] = useState({
 		email: "",
-		user_name: "",
+		username: "",
 		password: "",
 	});
 	const [confirmPassword, setconfirmPassword] = useState("");
@@ -30,7 +30,7 @@ const Signup: React.FC<SignupProps> = () => {
 	const handleSignUp = async (e: any) => {
 		e.preventDefault();
 		setloader(true);
-		if (data.user_name === "" || data.password === "") {
+		if (data.username === "" || data.password === "") {
 			setloader(false);
 			setmessage("All fields are required");
 			return null;
@@ -45,9 +45,12 @@ const Signup: React.FC<SignupProps> = () => {
 			.then(({ data }) => {
 				if (data.status) {
 					setloader(false);
-					localStorage.setItem("user_name", data.user_name);
-					localStorage.setItem("token", data.token);
-					navigate("/dashboard");
+					localStorage.setItem("user_id", data.data.user_id);
+					localStorage.setItem("username", data.data.username);
+					localStorage.setItem("email", data.data.email);
+					localStorage.setItem("profile", data.data.profile);
+					localStorage.setItem("token", data.data.token);
+					window.history.back();
 				} else {
 					setmessage(data.message);
 					setcolor("red");
@@ -90,8 +93,8 @@ const Signup: React.FC<SignupProps> = () => {
 							<label className="text-md font-semibold">Username</label>
 							<CustomInput
 								type={"text"}
-								value={data.user_name}
-								name={"user_name"}
+								value={data.username}
+								name={"username"}
 								handleChange={handleChange}
 								placeholder={"Example: kwabena__"}
 							/>
@@ -140,11 +143,7 @@ const Signup: React.FC<SignupProps> = () => {
 							</div>
 						)}
 						<CustomButton>
-							{loader ? (
-								<div>Please wait...</div>
-							) : (
-								<div>Create account</div>
-							)}
+							{loader ? "Please wait..." : "Create account"}
 						</CustomButton>
 					</form>
 				</div>

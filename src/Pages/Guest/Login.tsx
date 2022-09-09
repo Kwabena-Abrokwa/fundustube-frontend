@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CustomButton from "../../Components/Customs/CustomButton";
 import CustomInput from "../../Components/Customs/CustomInput";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { BACKEND_URL } from "../../API/URL";
 import axios from "axios";
 
@@ -12,8 +12,6 @@ const Login: React.FC<LoginProps> = () => {
 		user_name: "",
 		password: "",
 	});
-
-	const navigate = useNavigate();
 
 	const [loader, setloader] = useState<Boolean>(false);
 	const [message, setmessage] = useState<String>("");
@@ -37,11 +35,12 @@ const Login: React.FC<LoginProps> = () => {
 		await axios
 			.post(`${BACKEND_URL}/loginUser`, data)
 			.then(({ data }) => {
-				if (data.auth === 1) {
+				if (data.status) {
 					setloader(false);
-					localStorage.setItem("user_name", data.user_name);
+					localStorage.setItem("user_id", data.user_id);
+					localStorage.setItem("username", data.username);
 					localStorage.setItem("token", data.token);
-					navigate("/dashboard");
+					window.history.back();
 				} else {
 					setmessage(data.message);
 					setcolor("red");
@@ -107,7 +106,7 @@ const Login: React.FC<LoginProps> = () => {
 							</div>
 						)}
 						<CustomButton>
-							{loader ? <div>Please wait...</div> : <div>Login</div>}
+							{loader ? "Please wait..." : "Login"}
 						</CustomButton>
 					</form>
 				</div>

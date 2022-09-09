@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaRegAngry, FaRegHeart, FaRegShareSquare } from "react-icons/fa";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import CustomButton from "../Customs/CustomButton";
 
 const SingleVideoComponent: React.FC = () => {
 	const [data, setdata] = useState([]);
@@ -10,7 +11,9 @@ const SingleVideoComponent: React.FC = () => {
 	const [displayDonate, setdisplayDonate] = useState(false);
 	const [loader, setloader] = useState(true);
 	const { id } = useParams();
-	const user_id = 0;
+	const user_id = localStorage.getItem("user_id");
+	const navigate = useNavigate();
+
 	useEffect(() => {
 		setloader(true);
 		axios
@@ -27,9 +30,14 @@ const SingleVideoComponent: React.FC = () => {
 	}, [id]);
 
 	const handleLike = (id: string) => {
+		if (!user_id) {
+			navigate("/signup");
+			return null;
+		}
+
 		axios
 			.post(`http://localhost:8081/api/video/dislikeAction/${id}`, {
-				user_id: 15,
+				user_id: user_id,
 			})
 			.then(({ data }) => {
 				setLikesCount(data);
@@ -37,9 +45,14 @@ const SingleVideoComponent: React.FC = () => {
 	};
 
 	const handleDislike = (id: string) => {
+		if (!user_id) {
+			navigate("/signup");
+			return null;
+		}
+
 		axios
 			.post(`http://localhost:8081/api/video/likeAction/${id}`, {
-				user_id: 40,
+				user_id: user_id,
 			})
 			.then(({ data }) => {
 				setDislikesCount(data);
@@ -47,19 +60,45 @@ const SingleVideoComponent: React.FC = () => {
 	};
 
 	const handleDonateOpen = () => {
+		if (!user_id) {
+			navigate("/signup");
+			return null;
+		}
 		setdisplayDonate(true);
 	};
 
 	const handleDonateClose = () => {
+		if (!user_id) {
+			navigate("/signup");
+			return null;
+		}
 		setdisplayDonate(false);
 	};
 
-	const handleSubcribe = () => {};
+	const handleSubcribe = () => {
+		if (!user_id) {
+			navigate("/signup");
+			return null;
+		}
+	};
 
-	const handleUnsubcribe = () => {};
+	const handleUnsubcribe = () => {
+		if (!user_id) {
+			navigate("/signup");
+			return null;
+		}
+	};
+
+	const trancant = (str: string | null) => {
+		if (str && str.length > 160) {
+			return str.slice(0, 160) + "...";
+		} else {
+			return str;
+		}
+	};
 
 	return (
-		<div className="w-5/6">
+		<div className="w-4/5">
 			{displayDonate ? (
 				<div className="fixed w-screen h-screen bg-[#00000070] top-0 left-0 z-50">
 					{" "}
@@ -123,8 +162,48 @@ const SingleVideoComponent: React.FC = () => {
 								</button>
 							</div>
 						</div>
-						<div className="w-full border mt-10" />
 
+						<div className="w-full border mt-5" />
+						<div className="flex w-full border p-1 border-black rounded-md mt-5 bg-white">
+							<div
+								className="p-2 border bg-yellow-500 rounded-md"
+								style={{
+									width: item.donation_reached * 100,
+								}}
+							>
+								<p className="text-center overflow-hidden">
+									Donated GHS {item.donation_reached.toFixed(2)} -{" "}
+									{(
+										(item.donation_reached / item.donation_target) *
+										100
+									).toFixed(2)}
+									%
+								</p>
+							</div>
+							<div
+								className="bg-white p-2"
+								style={{
+									width:
+										(item.donation_target - item.donation_reached) *
+										100,
+								}}
+							>
+								<p className="text-center overflow-hidden">
+									Remaining GHS{" "}
+									{(
+										item.donation_target - item.donation_reached
+									).toFixed(2)}{" "}
+									{(
+										(item.donation_reached / item.donation_target) *
+											100 -
+										100
+									).toFixed(2)}
+									%
+								</p>
+							</div>
+						</div>
+
+						<div className="w-full border mt-5" />
 						<div className="flex justify-between items-start pt-10">
 							<div>
 								<div className="flex items-center">
@@ -142,8 +221,8 @@ const SingleVideoComponent: React.FC = () => {
 										</p>
 									</div>
 								</div>
-								<p className="pt-10 text-justify text-gray-500 pb-20">
-									{item.content}
+								<p className="pt-10 text-justify text-gray-500 pb-6">
+									{trancant(item.content)}
 								</p>
 							</div>
 							<div className="flex justify-between items-center ">
@@ -166,6 +245,51 @@ const SingleVideoComponent: React.FC = () => {
 										: "Subscribe"}
 								</button>
 							</div>
+						</div>
+						<div className="w-full pb-6">
+							<h1 className="text-2xl pb-4">Write a comment here</h1>
+							<textarea
+								className="w-full border border-black rounded-md p-2"
+								rows={5}
+							/>
+							<div className="flex justify-between items-center">
+								<div className="w-4/5 flex items-center">
+									<img
+										src={require("../../Assets/Images/campus-eats.webp")}
+										alt={"Profile"}
+										className="w-10 h-10 rounded-full"
+									/>
+									<p className="pl-3">
+										Comment as Frank Kwabena Abrokwa
+									</p>
+								</div>
+								<div className="w-1/5">
+									<CustomButton>Comment</CustomButton>
+								</div>
+							</div>
+						</div>
+
+						<div>
+							<h1 className="text-2xl underline pb-4">Comments</h1>
+							{item.comments.map((comment: any) => (
+								<div className="py-3">
+									<div className="flex items-start">
+										<img
+											src={`../${comment.user_profile}`}
+											alt={"Profile"}
+											className="w-10 h-10 rounded-full"
+										/>
+										<div className="pl-3">
+											<p className="text-lg font-semibold">
+												{comment.username}
+											</p>
+											<p className="text-sm text-gray-600">
+												{comment.comment}
+											</p>
+										</div>
+									</div>
+								</div>
+							))}
 						</div>
 					</div>
 				))}
