@@ -255,7 +255,7 @@ const SingleVideoComponent: React.FC = () => {
 							<div className="flex justify-between items-center">
 								<div className="w-4/5 flex items-center">
 									<img
-										src={require("../../Assets/Images/campus-eats.webp")}
+										src={require("../../Assets/Images/img1.jpg")}
 										alt={"Profile"}
 										className="w-10 h-10 rounded-full"
 									/>
