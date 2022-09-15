@@ -260,7 +260,7 @@ const SingleVideoComponent: React.FC = () => {
 										className="w-10 h-10 rounded-full"
 									/>
 									<p className="pl-3">
-										Comment as Frank Kwabena Abrokwa
+										Comment as {user_id}
 									</p>
 								</div>
 								<div className="w-1/5">
