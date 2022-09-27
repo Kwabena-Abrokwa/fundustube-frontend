@@ -225,7 +225,7 @@ const SingleVideoComponent: React.FC = () => {
 									{trancant(item.content)}
 								</p>
 							</div>
-							<div className="flex justify-between items-center ">
+							<div className="flex justify-between items-center " id="greenColor">
 								<button
 									className="bg-yellow-500 w-40 py-2 mr-4 font-semibold"
 									onClick={handleDonateOpen}
