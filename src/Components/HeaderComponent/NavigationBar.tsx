@@ -26,12 +26,17 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
 			</div>
 			<div className="flex justify-between items-center text-white relative">
 				{isOpen ? (
-					<div className="bg-yellow-500 h-40 w-44 absolute top-14 -right-2 text-black">
-						<Link to={"/"}>
-							<p className="py-8 cursor-pointer text-center">Profile</p>
+					<div className="bg-gray-200 w-44 p-2 absolute top-16 -right-2 text-black">
+						<Link to={"/profile"}>
+							<p className="cursor-pointer">Profile</p>
+						</Link>
+						<Link to={"/channel"}>
+							<p className="cursor-pointer">
+								Channel
+							</p>
 						</Link>
 						<Link to={"/"}>
-							<p className="cursor-pointer text-center">Logout</p>
+							<p className="cursor-pointer">Logout</p>
 						</Link>
 					</div>
 				) : null}

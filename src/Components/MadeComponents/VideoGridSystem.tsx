@@ -8,6 +8,7 @@ interface VideoGridSystemProps {
 	brief: string;
 	views: string;
 	date: string;
+	route: string;
 }
 
 const VideoGridSystem: React.FC<VideoGridSystemProps> = ({
@@ -17,6 +18,7 @@ const VideoGridSystem: React.FC<VideoGridSystemProps> = ({
 	brief,
 	views,
 	date,
+	route
 }) => {
 
 
@@ -30,7 +32,7 @@ const VideoGridSystem: React.FC<VideoGridSystemProps> = ({
 
 	return (
 		<div className="lg:col-span-3 cursor-pointer py-2 hover:shadow-md p-2 rounded-md">
-			<Link to={`/video/${id}`}>
+			<Link to={`/${route}/${id}`}>
 				<img src={img} alt="image1" className="h-36 w-full" />
 				<div className="flex items-start pt-3">
 					<img src={img} alt="image1" className="h-8 w-8 rounded-full" />

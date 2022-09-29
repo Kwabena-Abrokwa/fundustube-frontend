@@ -33,6 +33,7 @@ const HomePage: React.FC<HomePageProps> = () => {
 								brief={item.brief}
 								views={item.views.length}
 								date={item.created_at}
+								route={"video"}
 							/>
 						))}
 				</div>

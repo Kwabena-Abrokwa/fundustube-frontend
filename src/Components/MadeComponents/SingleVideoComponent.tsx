@@ -3,15 +3,19 @@ import React, { useEffect, useState } from "react";
 import { FaRegAngry, FaRegHeart, FaRegShareSquare } from "react-icons/fa";
 import { useParams, useNavigate } from "react-router-dom";
 import CustomButton from "../Customs/CustomButton";
+import CustomInput from "../Customs/CustomInput";
 
 const SingleVideoComponent: React.FC = () => {
 	const [data, setdata] = useState([]);
+	const [message, setmessage] = useState("");
+	const [color, setcolor] = useState("");
 	const [likesCount, setLikesCount] = useState(0);
 	const [dislikesCount, setDislikesCount] = useState(0);
 	const [displayDonate, setdisplayDonate] = useState(false);
 	const [loader, setloader] = useState(true);
 	const { id } = useParams();
 	const user_id = localStorage.getItem("user_id");
+	const user_name = localStorage.getItem("username");
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -102,11 +106,62 @@ const SingleVideoComponent: React.FC = () => {
 			{displayDonate ? (
 				<div className="fixed w-screen h-screen bg-[#00000070] top-0 left-0 z-50">
 					{" "}
-					<div
-						className="bg-white p-20 w-3/6 mx-auto mt-40 h-96"
-						onClick={handleDonateClose}
-					>
-						Close
+					<div className="bg-white w-2/6 mx-auto mt-36 overflow-scroll h-[480px]">
+						<div className="  " onClick={handleDonateClose}>
+							<h1>Close</h1>
+						</div>
+
+						<div className="w-full p-2 my-5">
+							<form className="w-11/12  mx-auto ">
+								<div className="my-8">
+									<label className="text-md font-semibold">
+										Email
+									</label>
+									<CustomInput
+										type={"email"}
+										value={""}
+										name={"email"}
+										handleChange={() => {}}
+										placeholder={"Example: kwabena@gmail.com"}
+									/>
+								</div>
+								<div className="my-8">
+									<label className="text-md font-semibold">
+										Username
+									</label>
+									<CustomInput
+										type={"text"}
+										value={""}
+										name={"username"}
+										handleChange={() => {}}
+										placeholder={"Example: kwabena__"}
+									/>
+								</div>
+								<div className="my-8">
+									<label className="text-md font-semibold">
+										Amount to donate
+									</label>
+									<CustomInput
+										type={"text"}
+										value={""}
+										name={"username"}
+										handleChange={() => {}}
+										placeholder={"Example: kwabena__"}
+									/>
+								</div>
+								{message && (
+									<div
+										className="text-center p-4 my-8 rounded-lg w-full"
+										style={{ backgroundColor: color }}
+									>
+										<p className="text-white">{message}</p>
+									</div>
+								)}
+								<CustomButton>
+									{loader ? "Please wait..." : "Donate"}
+								</CustomButton>
+							</form>
+						</div>
 					</div>
 				</div>
 			) : null}
@@ -192,11 +247,12 @@ const SingleVideoComponent: React.FC = () => {
 									Remaining GHS{" "}
 									{(
 										item.donation_target - item.donation_reached
-									).toFixed(2)}{" "}
+									).toFixed(2)}
+									{" - "}
 									{(
+										100 -
 										(item.donation_reached / item.donation_target) *
-											100 -
-										100
+											100
 									).toFixed(2)}
 									%
 								</p>
@@ -225,7 +281,10 @@ const SingleVideoComponent: React.FC = () => {
 									{trancant(item.content)}
 								</p>
 							</div>
-							<div className="flex justify-between items-center " id="greenColor">
+							<div
+								className="flex justify-between items-center "
+								id="greenColor"
+							>
 								<button
 									className="bg-yellow-500 w-40 py-2 mr-4 font-semibold"
 									onClick={handleDonateOpen}
@@ -259,9 +318,7 @@ const SingleVideoComponent: React.FC = () => {
 										alt={"Profile"}
 										className="w-10 h-10 rounded-full"
 									/>
-									<p className="pl-3">
-										Comment as {user_id}
-									</p>
+									<p className="pl-3">Comment as {user_name}</p>
 								</div>
 								<div className="w-1/5">
 									<CustomButton>Comment</CustomButton>

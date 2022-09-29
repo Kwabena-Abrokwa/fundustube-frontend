@@ -40,6 +40,7 @@ const SingleVideo: React.FC<SingleVideoProps> = () => {
 										brief={item.brief}
 										views={item.views.length}
 										date={item.created_at}
+										route={"video"}
 									/>
 								))}
 						</h1>
