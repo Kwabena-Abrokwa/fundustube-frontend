@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CustomButton from "../../Components/Customs/CustomButton";
 import CustomInput from "../../Components/Customs/CustomInput";
-import { Link } from "react-router-dom";
 import axios from "axios";
 
 import DashboardLayout from "../../Components/LayoutComponent/DashboardLayout";
